@@ -3,6 +3,16 @@ mz-redux
 
 attempt to fix a few aspects of mz
 
+NOTES
+=======
+Build for gdb with this command:
+'cmake -DCMAKE_BUILD_TYPE:STRING=Debug .'
+followed by a normal 'make'
+use 'sudo gdb src/mz' to run it in gdb
+
+
+
+
 What is Mausezahn?
 ==================
 
