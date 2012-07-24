@@ -27,6 +27,7 @@ struct automops * automops_init()
 {
 	// Create initial automops element:
 	struct automops *new_automops = (struct automops*) malloc(sizeof(struct automops));
+  memset(new_automops,0,sizeof(*new_automops));
 	new_automops->next = new_automops;
 	new_automops->prev = new_automops;
 	automops_set_defaults (new_automops);
@@ -46,7 +47,7 @@ void automops_set_defaults(struct automops * cur)
 	cur->layers_on  = 0;
 	cur->layers_off = 0;
 
-	cur->etype = 0;
+
 	cur->proto = 0;
 	for (i=0; i<6; i++) {
 		cur->sa[i] = 0x00;

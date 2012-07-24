@@ -857,7 +857,8 @@ void print_dot1Q_help(void);
 // Determines ip and mac address of specified interface 'ifname'
 // Caller must provide an unsigned char ip[4], mac[6]
 //
-int get_if_addr (char *ifname, unsigned char *ip, unsigned char *mac);
+int get_if_ip (char *ifname, unsigned char *ip);
+int get_if_mac (char *ifname, unsigned char *mac);
 
 // Takes filename and prepends valid configuration/logging directory
 // NOTE: filename is overwritten and must be big enough to hold full path!
