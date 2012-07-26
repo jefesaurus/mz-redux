@@ -171,7 +171,32 @@ int lookupdev()
 }
 
 
+int dev_exists(char *ifname)
+{
+   // char *tx.device is global, see as.h
 
+   char errbuf[PCAP_ERRBUF_SIZE];
+
+   pcap_if_t 
+     *alldevs,
+     *index = NULL;
+
+   if (pcap_findalldevs(&alldevs, errbuf) == -1)
+   {
+     fprintf(stderr," mz: %s\n",errbuf);
+     return 1;
+   }
+  index = (pcap_if_t *) alldevs;
+  while(index)
+  {
+    if(strcmp(index->name,ifname)==0)
+    {
+      return 1;
+    }
+    index=index->next;
+  }
+  return 0;
+}
 
 
 
@@ -212,10 +237,9 @@ int get_if_mac (char *ifname, u_int8_t *mac)
 {
   int fd;
   struct ifreq ifr;
-  struct sockaddr_in saddr;
   int i;
 
-
+  sleep(1);
   ifr.ifr_addr.sa_family = AF_INET;
   strncpy(ifr.ifr_name, ifname , IFNAMSIZ-1);
 

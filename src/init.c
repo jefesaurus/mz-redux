@@ -399,27 +399,41 @@ int getopts (int argc, char *argv[])
 			fprintf(stderr," mz: device not given, will use %s\n",tx.device);
 		break;
 	 case 1: // arg_string OR device given => find out!
-		if ( (strncmp(argv[optind],"eth",3)==0) 
-		     || (strncmp(argv[optind],"ath",3)==0)
-		     || ((strncmp(argv[optind],"lo",2)==0)&&(strncmp(argv[optind],"log",3)!=0))
-		     || (strncmp(argv[optind],"vmnet",5)==0)
-		     || (strncmp(argv[optind],"wifi",4)==0) ) {
-			// device has been specified!
-			strncpy (tx.device, argv[optind], 16);
-		}
-		else { /// arg_string given => no device has been specified -- let's find one!
+		if ( dev_exists(argv[optind]) )
+    {
+      strncpy (tx.device, argv[optind], 16);
+    }
+		else 
+    { /// arg_string given => no device has been specified -- let's find one!
 			strncpy (tx.arg_string, argv[optind], MAX_PAYLOAD_SIZE);
-			if (lookupdev()) { // no device found
+			if (lookupdev()) 
+      { // no device found
 				if (verbose) fprintf(stderr, " mz: no active interfaces found!\n");
 				strcpy(tx.device, "lo");
 			}
-			if (verbose)
-				fprintf(stderr," mz: device not given, will use %s\n",tx.device);
+			if (verbose) fprintf(stderr," mz: device not given, will use %s\n",tx.device);
 		}
 		break;
 	 case 2: // both device and arg_string given
-		strncpy (tx.device, argv[optind], 16);
-		strncpy (tx.arg_string, argv[optind+1], MAX_PAYLOAD_SIZE);
+    if(dev_exists(argv[optind]))
+    {
+      strncpy (tx.device, argv[optind], 16);
+      strncpy (tx.arg_string, argv[optind+1], MAX_PAYLOAD_SIZE);
+    }
+    else if(dev_exists(argv[optind+1]))
+    {
+      strncpy (tx.device, argv[optind+1], 16);
+      strncpy (tx.arg_string, argv[optind], MAX_PAYLOAD_SIZE);
+    }
+		else
+    {
+      if (lookupdev()) { // no device found
+		  	if (verbose) fprintf(stderr, " mz: no active interfaces found!\n");
+			  strcpy(tx.device, "lo");
+	  	}
+		  if (verbose) // device found
+			  fprintf(stderr," mz: device not given, will use %s\n",tx.device);
+    }
 		break;
 	 default:
 		fprintf(stderr," mz/getopts: Unknown argument problem!\n");
