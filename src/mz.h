@@ -860,6 +860,10 @@ void print_dot1Q_help(void);
 int get_if_ip (char *ifname, unsigned char *ip);
 int get_if_mac (char *ifname, unsigned char *mac);
 
+
+//Determines whether or an interface exists based on output of pcap
+int dev_exists (char *ifname);
+
 // Takes filename and prepends valid configuration/logging directory
 // NOTE: filename is overwritten and must be big enough to hold full path!
 int getfullpath_cfg (char *filename);
