@@ -395,9 +395,8 @@ int getopts (int argc, char *argv[])
 			if (verbose) fprintf(stderr, " mz: no active interfaces found!\n");
 			strcpy(tx.device, "lo");
 		}
-		if (verbose) // device found
-			fprintf(stderr," mz: device not given, will use %s\n",tx.device);
-		break;
+		fprintf(stderr," mz: You must specify an interface. Use ifconfig and try again.\n");
+    exit(0);
 	 case 1: // arg_string OR device given => find out!
 		if ( dev_exists(argv[optind]) )
     {
@@ -411,7 +410,8 @@ int getopts (int argc, char *argv[])
 				if (verbose) fprintf(stderr, " mz: no active interfaces found!\n");
 				strcpy(tx.device, "lo");
 			}
-			if (verbose) fprintf(stderr," mz: device not given, will use %s\n",tx.device);
+	  	fprintf(stderr," mz: You must specify a valid interface. Use ifconfig and try again.\n");
+      exit(0);
 		}
 		break;
 	 case 2: // both device and arg_string given
@@ -431,14 +431,19 @@ int getopts (int argc, char *argv[])
 		  	if (verbose) fprintf(stderr, " mz: no active interfaces found!\n");
 			  strcpy(tx.device, "lo");
 	  	}
-		  if (verbose) // device found
-			  fprintf(stderr," mz: device not given, will use %s\n",tx.device);
+      fprintf(stderr," mz: You must specify a valid interface. Use ifconfig and try again.\n");
+      exit(0);
     }
 		break;
 	 default:
 		fprintf(stderr," mz/getopts: Unknown argument problem!\n");
 		return 1;
 	}
+  if(verbose) 
+  {
+    if(tx.device) fprintf(stderr," mz: Selected interface: %s\n",tx.device );
+    if(tx.arg_string) fprintf(stderr," mz: Selected argument string: %s\n", tx.arg_string);
+  }
 	
 	if (hexpld_specified) {
 		strcat(tx.arg_string, ",p=");
