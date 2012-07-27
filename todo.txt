@@ -1,0 +1,1 @@
+1. clean up bullshit in lookupdev.c so it only depends on ioctl and doesn't require pcap

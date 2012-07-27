@@ -205,7 +205,7 @@ int update_IP_SA (libnet_t *l, libnet_ptag_t t)
 // 
 int update_IP_DA(libnet_t *l, libnet_ptag_t t)
 {
-   u_int8_t *x, *y;  
+  // u_int8_t *x, *y;  
    int i=0;
 
 
@@ -221,7 +221,9 @@ int update_IP_DA(libnet_t *l, libnet_ptag_t t)
 
    
    // Now convert "tx.ip_dst_h" into "tx.ip_dst" which is in 'Network Byte Order':
+   tx.ip_dst=htonl(tx.ip_dst_h);
 
+/*
    x = (unsigned char*) &tx.ip_dst_h;
    y = (unsigned char*) &tx.ip_dst;
    
@@ -232,7 +234,7 @@ int update_IP_DA(libnet_t *l, libnet_ptag_t t)
    *y = *(x+1);
    y++;
    *y = *x;
-
+*/
    
    // TODO: Omit certain IP addresses:
    //       E.g. if (rand_ip == tx.ip_src) goto rand_again;  // never use true interface IP
