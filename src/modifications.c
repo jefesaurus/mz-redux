@@ -151,16 +151,7 @@ int update_IP_SA (libnet_t *l, libnet_ptag_t t)
      }
    
    // Now convert "tx.ip_src_h" into "tx.ip_src" which is in 'Network Byte Order':
-   x = (unsigned char*) &tx.ip_src_h;
-   y = (unsigned char*) &tx.ip_src;
-   
-   *y = *(x+3);
-   y++;
-   *y = *(x+2);
-   y++;
-   *y = *(x+1);
-   y++;
-   *y = *x;
+   tx.ip_src=htonl(tx.ip_src_h);
    
    // TODO: Omit certain IP addresses:
    //       E.g. if (rand_ip == tx.ip_src) goto rand_again;  // never use true interface IP
@@ -223,19 +214,6 @@ int update_IP_DA(libnet_t *l, libnet_ptag_t t)
    // Now convert "tx.ip_dst_h" into "tx.ip_dst" which is in 'Network Byte Order':
    tx.ip_dst=htonl(tx.ip_dst_h);
 
-/*
-   x = (unsigned char*) &tx.ip_dst_h;
-   y = (unsigned char*) &tx.ip_dst;
-   
-   *y = *(x+3);
-   y++;
-   *y = *(x+2);
-   y++;
-   *y = *(x+1);
-   y++;
-   *y = *x;
-*/
-   
    // TODO: Omit certain IP addresses:
    //       E.g. if (rand_ip == tx.ip_src) goto rand_again;  // never use true interface IP
    // TODO: Check other address exceptions ...
